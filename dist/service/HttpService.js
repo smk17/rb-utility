@@ -1,11 +1,3 @@
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -84,26 +76,18 @@ var HttpService = /** @class */ (function () {
     };
     HttpService.executeController = function (host, params) {
         return __awaiter(this, void 0, void 0, function () {
-            var getParams, get, save, error;
+            var get, save;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        getParams = __assign({}, params);
-                        if (getParams.params)
-                            delete getParams.params;
-                        return [4 /*yield*/, HttpService.getController(host, getParams)];
+                    case 0: return [4 /*yield*/, HttpService.getController(host, params)];
                     case 1:
                         get = _a.sent();
                         if (!get) return [3 /*break*/, 3];
-                        return [4 /*yield*/, HttpService.executeController(host, params)];
+                        return [4 /*yield*/, HttpService._executeController(host, params)];
                     case 2:
                         save = _a.sent();
                         return [2 /*return*/, save];
-                    case 3:
-                        error = new Error("你当前没有执行权限");
-                        error.name = "NoPermissionException";
-                        error["success"] = false;
-                        throw error;
+                    case 3: return [2 /*return*/];
                 }
             });
         });

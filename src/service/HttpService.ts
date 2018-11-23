@@ -41,7 +41,7 @@ export default class HttpService {
   }
 
   /** 执行控制器 */
-  static _executeController<T>(host: string, params: ISaveServiceParams) {
+  private static _executeController<T>(host: string, params: ISaveServiceParams) {
     return Service.executeService<T>(
       host,
       {
@@ -53,17 +53,11 @@ export default class HttpService {
   }
 
   static async executeController<T>(host: string, params: ISaveServiceParams) {
-    const getParams = { ...params };
-    if (getParams.params) delete getParams.params;
-    const get = await HttpService.getController(host, getParams);
+    const get = await HttpService.getController(host, params);
     if (get) {
-      const save = await HttpService.executeController<T>(host, params);
+      const save = await HttpService._executeController<T>(host, params);
       return save;
-    } else {
-      let error = new Error("你当前没有执行权限");
-      error.name = "NoPermissionException";
-      error["success"] = false;
-      throw error;
     }
+    return;
   }
 }
