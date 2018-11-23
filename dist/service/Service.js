@@ -34,7 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-import Axios from "axios";
+// import Axios from "axios";
+import "whatwg-fetch";
 import { JsonHelper, ConsoleHelper, EventDriver } from "../index";
 import { ServiceErrorLevelEnum, ServiceType } from "./IServiceTypes";
 var Service = /** @class */ (function () {
@@ -107,18 +108,98 @@ var Service = /** @class */ (function () {
      * 执行指定的服务
      * @param service 要执行的服务
      */
+    // private static __executeService<T>(host: string, service: IServiceInfo) {
+    //   return new Promise<T>(async (resolve, rejct) => {
+    //     const { name } = service;
+    //     const handlingErrorLevel =
+    //       service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
+    //     let formData: string = "",
+    //       error: Error;
+    //     if (service.params) {
+    //       try {
+    //         formData = "";
+    //         for (const key in service.params) {
+    //           if (service.params.hasOwnProperty(key)) {
+    //             if (formData) {
+    //               formData += "&";
+    //             }
+    //             formData +=
+    //               key + "=" + (await Service._toParamString(service.params[key]));
+    //           }
+    //         }
+    //       } catch (ex) {
+    //         rejct({
+    //           type: "FormatError",
+    //           name: "参数格式化出错，请检查参数格式",
+    //           message: ex
+    //         });
+    //       }
+    //     }
+    //     const response = await Axios.post(host + name, formData, {
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //         Accept: "application/json"
+    //       },
+    //       timeout: Service.TIMEOUT
+    //     });
+    //     if (response) {
+    //       if (response.status >= 200 && response.status < 300) {
+    //         const { data } = response;
+    //         let ex = data.e;
+    //         if (ex) {
+    //           if (ex.name === "BusinessException") {
+    //             if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
+    //               Service._dispose(ex, rejct);
+    //             }
+    //           } else if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
+    //             Service._dispose(ex, rejct);
+    //           }
+    //           rejct(ex);
+    //         } else {
+    //           const result = data;
+    //           // result.data 有可能为null
+    //           if (result.data) {
+    //             if (result.data.success === false) {
+    //               rejct(result.data);
+    //             } else {
+    //               resolve(result.data);
+    //             }
+    //           } else {
+    //             ConsoleHelper.error(service.name, "获取数据为null");
+    //             resolve(undefined);
+    //           }
+    //         }
+    //       } else {
+    //         error = new Error(response.statusText);
+    //         error.name = "RequestServiceException";
+    //         error["status"] = response.status;
+    //         Service._dispose(error, rejct);
+    //       }
+    //     } else {
+    //       error = new Error("response is null");
+    //       error.name = "RequestNullException";
+    //       Service._dispose(error, rejct);
+    //     }
+    //   });
+    // }
+    /**
+     * 执行指定的服务
+     * @param service 要执行的服务
+     */
     Service._executeService = function (host, service) {
         var _this = this;
         return new Promise(function (resolve, rejct) { return __awaiter(_this, void 0, void 0, function () {
-            var name, handlingErrorLevel, formData, error, _a, _b, _i, key, _c, _d, ex_1, response, data, ex, result;
+            var formData, isFormData, handlingErrorLevel, _a, _b, _i, key, _c, _d, ex_1, headers;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
-                        name = service.name;
+                        isFormData = false;
                         handlingErrorLevel = service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
-                        formData = "";
                         if (!service.params) return [3 /*break*/, 7];
-                        _e.label = 1;
+                        if (!(service.params instanceof FormData)) return [3 /*break*/, 1];
+                        formData = service.params;
+                        isFormData = true;
+                        return [3 /*break*/, 7];
                     case 1:
                         _e.trys.push([1, 6, , 7]);
                         formData = "";
@@ -146,65 +227,114 @@ var Service = /** @class */ (function () {
                     case 5: return [3 /*break*/, 7];
                     case 6:
                         ex_1 = _e.sent();
-                        rejct({
-                            type: "FormatError",
-                            name: "参数格式化出错，请检查参数格式",
-                            message: ex_1
-                        });
+                        if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
+                            console.warn("FormatError");
+                            Service._dispose(ex_1, rejct);
+                            console.error("FormData format error: " + ex_1);
+                        }
+                        else {
+                            rejct({
+                                type: "FormatError",
+                                name: "参数格式化出错，请检查参数格式",
+                                message: ex_1
+                            });
+                        }
                         return [3 /*break*/, 7];
-                    case 7: return [4 /*yield*/, Axios.post(host + name, formData, {
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded",
-                                Accept: "application/json"
-                            },
-                            timeout: Service.TIMEOUT
-                        })];
-                    case 8:
-                        response = _e.sent();
-                        if (response) {
-                            if (response.status >= 200 && response.status < 300) {
-                                data = response.data;
-                                ex = data.e;
-                                if (ex) {
-                                    if (ex.name === "BusinessException") {
-                                        if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
-                                            Service._dispose(ex, rejct);
+                    case 7:
+                        headers = new Headers({
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            Accept: "application/json"
+                        });
+                        if (!isFormData) {
+                            headers["Content-Type"] = "application/x-www-form-urlencoded";
+                        }
+                        // console.log("_executeService", formData);
+                        Promise.race([
+                            fetch(host + service.name, {
+                                method: "POST",
+                                cache: "no-cache",
+                                credentials: "include",
+                                headers: headers,
+                                body: formData
+                            }),
+                            new Promise(function (_, reject) {
+                                setTimeout(function () {
+                                    var result = {
+                                        data: {
+                                            success: false,
+                                            message: "网络请求超时啦～"
                                         }
-                                    }
-                                    else if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
-                                        Service._dispose(ex, rejct);
-                                    }
-                                    rejct(ex);
+                                    };
+                                    reject(result.data);
+                                }, Service.TIMEOUT);
+                            })
+                        ])
+                            .then(function (response) {
+                            // response 有可能为null
+                            var error;
+                            if (response) {
+                                if (response.status >= 200 && response.status < 300) {
+                                    return response.text();
                                 }
                                 else {
-                                    result = data;
-                                    // result.data 有可能为null
-                                    if (result.data) {
-                                        if (result.data.success === false) {
-                                            rejct(result.data);
-                                        }
-                                        else {
-                                            resolve(result.data);
-                                        }
-                                    }
-                                    else {
-                                        ConsoleHelper.error(service.name, "获取数据为null");
-                                        resolve(undefined);
-                                    }
+                                    error = new Error(response.statusText);
+                                    error.name = "RequestServiceException";
+                                    error["status"] = response.status;
+                                    throw error;
                                 }
                             }
                             else {
-                                error = new Error(response.statusText);
-                                error.name = "RequestServiceException";
-                                error["status"] = response.status;
-                                Service._dispose(error, rejct);
+                                error = new Error("response is null");
+                                error.name = "RequestNullException";
+                                throw error;
                             }
-                        }
-                        else {
-                            error = new Error("response is null");
-                            error.name = "RequestNullException";
-                            Service._dispose(error, rejct);
-                        }
+                        })
+                            .then(function (res) {
+                            var result = JsonHelper.parseJson(res);
+                            // console.log(result);
+                            if (service.name === "/anonymity/writelog") {
+                                return;
+                            }
+                            var ex = result.e;
+                            if (ex) {
+                                if (ex.name === "BusinessException") {
+                                    if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
+                                        Service._dispose(ex, rejct);
+                                    }
+                                }
+                                else if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
+                                    Service._dispose(ex, rejct);
+                                }
+                                rejct(ex);
+                            }
+                            else {
+                                // result.data 有可能为null
+                                if (result.data) {
+                                    if (result.data.success === false) {
+                                        rejct(result.data);
+                                    }
+                                    else {
+                                        resolve(result.data);
+                                    }
+                                }
+                                else {
+                                    ConsoleHelper.error(service.name, "获取数据为null");
+                                    resolve(undefined);
+                                }
+                            }
+                        })
+                            .catch(function (ex) {
+                            if (service.name === "/anonymity/writelog") {
+                                return;
+                            }
+                            if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
+                                // console.warn(ex);
+                                Service._dispose(ex, rejct);
+                            }
+                            else {
+                                rejct(ex);
+                            }
+                        });
                         return [2 /*return*/];
                 }
             });

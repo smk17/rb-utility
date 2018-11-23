@@ -1,4 +1,5 @@
-import Axios from "axios";
+// import Axios from "axios";
+import "whatwg-fetch";
 import { JsonHelper, ConsoleHelper, EventDriver } from "../index";
 import {
   IServiceInfo,
@@ -108,44 +109,173 @@ export default class Service {
    * 执行指定的服务
    * @param service 要执行的服务
    */
+  // private static __executeService<T>(host: string, service: IServiceInfo) {
+  //   return new Promise<T>(async (resolve, rejct) => {
+  //     const { name } = service;
+  //     const handlingErrorLevel =
+  //       service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
+  //     let formData: string = "",
+  //       error: Error;
+  //     if (service.params) {
+  //       try {
+  //         formData = "";
+  //         for (const key in service.params) {
+  //           if (service.params.hasOwnProperty(key)) {
+  //             if (formData) {
+  //               formData += "&";
+  //             }
+  //             formData +=
+  //               key + "=" + (await Service._toParamString(service.params[key]));
+  //           }
+  //         }
+  //       } catch (ex) {
+  //         rejct({
+  //           type: "FormatError",
+  //           name: "参数格式化出错，请检查参数格式",
+  //           message: ex
+  //         });
+  //       }
+  //     }
+  //     const response = await Axios.post(host + name, formData, {
+  //       headers: {
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //         Accept: "application/json"
+  //       },
+  //       timeout: Service.TIMEOUT
+  //     });
+  //     if (response) {
+  //       if (response.status >= 200 && response.status < 300) {
+  //         const { data } = response;
+  //         let ex = data.e;
+  //         if (ex) {
+  //           if (ex.name === "BusinessException") {
+  //             if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
+  //               Service._dispose(ex, rejct);
+  //             }
+  //           } else if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
+  //             Service._dispose(ex, rejct);
+  //           }
+  //           rejct(ex);
+  //         } else {
+  //           const result = data;
+  //           // result.data 有可能为null
+  //           if (result.data) {
+  //             if (result.data.success === false) {
+  //               rejct(result.data);
+  //             } else {
+  //               resolve(result.data);
+  //             }
+  //           } else {
+  //             ConsoleHelper.error(service.name, "获取数据为null");
+  //             resolve(undefined);
+  //           }
+  //         }
+  //       } else {
+  //         error = new Error(response.statusText);
+  //         error.name = "RequestServiceException";
+  //         error["status"] = response.status;
+  //         Service._dispose(error, rejct);
+  //       }
+  //     } else {
+  //       error = new Error("response is null");
+  //       error.name = "RequestNullException";
+  //       Service._dispose(error, rejct);
+  //     }
+  //   });
+  // }
+
+  /**
+   * 执行指定的服务
+   * @param service 要执行的服务
+   */
   private static _executeService<T>(host: string, service: IServiceInfo) {
     return new Promise<T>(async (resolve, rejct) => {
-      const { name } = service;
-      const handlingErrorLevel =
-        service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
-      let formData: string = "",
-        error: Error;
+      let formData;
+      let isFormData = false;
+      let handlingErrorLevel = service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
       if (service.params) {
-        try {
-          formData = "";
-          for (const key in service.params) {
-            if (service.params.hasOwnProperty(key)) {
-              if (formData) {
-                formData += "&";
+        if (service.params instanceof FormData) {
+          formData = service.params;
+          isFormData = true;
+        } else {
+          try {
+            formData = "";
+            for (let key in service.params) {
+              if (service.params.hasOwnProperty(key)) {
+                if (formData) {
+                  formData += "&";
+                }
+                formData += key + "=" + (await Service._toParamString(service.params[key]));
               }
-              formData +=
-                key + "=" + (await Service._toParamString(service.params[key]));
+            }
+          } catch (ex) {
+            if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
+              console.warn("FormatError");
+              Service._dispose(ex, rejct);
+              console.error("FormData format error: " + ex);
+            } else {
+              rejct({
+                type: "FormatError",
+                name: "参数格式化出错，请检查参数格式",
+                message: ex
+              });
             }
           }
-        } catch (ex) {
-          rejct({
-            type: "FormatError",
-            name: "参数格式化出错，请检查参数格式",
-            message: ex
-          });
         }
       }
-      const response = await Axios.post(host + name, formData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json"
-        },
-        timeout: Service.TIMEOUT
+      let headers = new Headers({
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json"
       });
-      if (response) {
-        if (response.status >= 200 && response.status < 300) {
-          const { data } = response;
-          let ex = data.e;
+      if (!isFormData) {
+        headers["Content-Type"] = "application/x-www-form-urlencoded";
+      }
+      // console.log("_executeService", formData);
+      Promise.race([
+        fetch(host + service.name, {
+          method: "POST",
+          cache: "no-cache",
+          credentials: "include",
+          headers,
+          body: formData
+        }),
+        new Promise<null>((_, reject) => {
+          setTimeout(() => {
+            let result = {
+              data: {
+                success: false,
+                message: "网络请求超时啦～"
+              }
+            };
+            reject(result.data);
+          }, Service.TIMEOUT);
+        })
+      ])
+        .then(response => {
+          // response 有可能为null
+          let error: Error;
+          if (response) {
+            if (response.status >= 200 && response.status < 300) {
+              return response.text();
+            } else {
+              error = new Error(response.statusText);
+              error.name = "RequestServiceException";
+              error["status"] = response.status;
+              throw error;
+            }
+          } else {
+            error = new Error("response is null");
+            error.name = "RequestNullException";
+            throw error;
+          }
+        })
+        .then(res => {
+          const result = JsonHelper.parseJson(res);
+          // console.log(result);
+          if (service.name === "/anonymity/writelog") {
+            return;
+          }
+          let ex = result.e;
           if (ex) {
             if (ex.name === "BusinessException") {
               if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
@@ -156,7 +286,6 @@ export default class Service {
             }
             rejct(ex);
           } else {
-            const result = data;
             // result.data 有可能为null
             if (result.data) {
               if (result.data.success === false) {
@@ -169,17 +298,18 @@ export default class Service {
               resolve(undefined);
             }
           }
-        } else {
-          error = new Error(response.statusText);
-          error.name = "RequestServiceException";
-          error["status"] = response.status;
-          Service._dispose(error, rejct);
-        }
-      } else {
-        error = new Error("response is null");
-        error.name = "RequestNullException";
-        Service._dispose(error, rejct);
-      }
+        })
+        .catch(ex => {
+          if (service.name === "/anonymity/writelog") {
+            return;
+          }
+          if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
+            // console.warn(ex);
+            Service._dispose(ex, rejct);
+          } else {
+            rejct(ex);
+          }
+        });
     });
   }
 

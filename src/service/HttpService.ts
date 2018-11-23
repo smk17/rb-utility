@@ -53,7 +53,9 @@ export default class HttpService {
   }
 
   static async executeController<T>(host: string, params: ISaveServiceParams) {
-    const get = await HttpService.getController(host, params);
+    const getParams = { ...params };
+    if (getParams.params) delete getParams.params;
+    const get = await HttpService.getController(host, getParams);
     if (get) {
       const save = await HttpService.executeController<T>(host, params);
       return save;

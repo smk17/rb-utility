@@ -1,3 +1,4 @@
+import "whatwg-fetch";
 import { IServiceInfo, ServiceType } from "./IServiceTypes";
 export default class Service {
     /** 数据请求失败时重新请求的次数 */
@@ -10,6 +11,10 @@ export default class Service {
      * @param ex 异常对象
      */
     private static _dispose(ex, rejct?);
+    /**
+     * 执行指定的服务
+     * @param service 要执行的服务
+     */
     /**
      * 执行指定的服务
      * @param service 要执行的服务
