@@ -5,4 +5,5 @@ import { ICurrencyParams } from "../IUtilityTypes";
  * @param _currency
  * @param decimals
  */
-export declare function currency(value: any, params?: ICurrencyParams): any;
+declare function currency(value: any, params?: ICurrencyParams): any;
+export default currency;

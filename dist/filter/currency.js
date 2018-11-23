@@ -7,7 +7,7 @@ var _weightFormulas = new Formula("data.weight / data.unit", 2);
  * @param _currency
  * @param decimals
  */
-export function currency(value, params) {
+function currency(value, params) {
     if (params === void 0) { params = {}; }
     var _currency = params._currency, decimals = params.decimals, unit = params.unit;
     value = value || 0;
@@ -49,6 +49,12 @@ export function currency(value, params) {
     var _float = decimals ? stringified.slice(-1 - decimals) : "";
     var sign = value < 0 ? "-" : "";
     var digitsRE = /(\d{3})(?=\d)/g;
-    return sign + _currency + head + _int.slice(i).replace(digitsRE, "$1,") + _float + _unit;
+    return (sign +
+        _currency +
+        head +
+        _int.slice(i).replace(digitsRE, "$1,") +
+        _float +
+        _unit);
 }
+export default currency;
 //# sourceMappingURL=currency.js.map

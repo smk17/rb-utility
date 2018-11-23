@@ -17,4 +17,10 @@ export { default as Localize } from "./Localize";
 export { default as Formula } from "./Formula";
 export { default as Service } from "./service/Service";
 export { default as HttpService } from "./service/HttpService";
+export { default as getLocationSearch } from "./filter/getLocationSearch";
+export { default as url2string } from "./filter/url2string";
+export { default as urlToList } from "./filter/urlToList";
+export { default as currency } from "./filter/currency";
+export { default as fontSize } from "./filter/fontSize";
+export { default as sleep } from "./filter/sleep";
 //# sourceMappingURL=index.js.map

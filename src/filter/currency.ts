@@ -1,7 +1,10 @@
 import Formula from "../Formula";
 import { ICurrencyParams } from "../IUtilityTypes";
 
-const _currencyFormulas = new Formula("(data.currency * data.decimals) / data.decimals", 2);
+const _currencyFormulas = new Formula(
+  "(data.currency * data.decimals) / data.decimals",
+  2
+);
 const _weightFormulas = new Formula("data.weight / data.unit", 2);
 /**
  * 数据格式化成金额
@@ -9,9 +12,9 @@ const _weightFormulas = new Formula("data.weight / data.unit", 2);
  * @param _currency
  * @param decimals
  */
-export function currency(value, params: ICurrencyParams = {}) {
+function currency(value, params: ICurrencyParams = {}) {
   let { _currency, decimals, unit } = params;
-  value = value || 0
+  value = value || 0;
   value = parseFloat(value);
   if (!isFinite(value) || (!value && value !== 0)) return "";
   decimals = decimals != null ? decimals : 2;
@@ -47,5 +50,14 @@ export function currency(value, params: ICurrencyParams = {}) {
   let _float = decimals ? stringified.slice(-1 - decimals) : "";
   let sign = value < 0 ? "-" : "";
   let digitsRE = /(\d{3})(?=\d)/g;
-  return sign + _currency + head + _int.slice(i).replace(digitsRE, "$1,") + _float + _unit;
+  return (
+    sign +
+    _currency +
+    head +
+    _int.slice(i).replace(digitsRE, "$1,") +
+    _float +
+    _unit
+  );
 }
+
+export default currency;
