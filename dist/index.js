@@ -15,7 +15,7 @@ export { default as JsonHelper } from "./JsonHelper";
 export { default as DateHelper } from "./DateHelper";
 export { default as Localize } from "./Localize";
 export { default as Formula } from "./Formula";
-export { default as Service } from "./service/Service";
+export { default as ServiceHelper } from "./service/Service";
 export { default as HttpService } from "./service/HttpService";
 export { default as getLocationSearch } from "./filter/getLocationSearch";
 export { default as url2string } from "./filter/url2string";
