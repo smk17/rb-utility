@@ -10,5 +10,6 @@ export default class HttpService {
     /** 保存页面数据 */
     static saveData<T>(host: string, params: ISaveServiceParams): Promise<T>;
     /** 执行控制器 */
-    static executeController<T>(host: string, params: ISaveServiceParams): Promise<T>;
+    static _executeController<T>(host: string, params: ISaveServiceParams): Promise<T>;
+    static executeController<T>(host: string, params: ISaveServiceParams): any;
 }
