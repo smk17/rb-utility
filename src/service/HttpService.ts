@@ -17,6 +17,7 @@ export default class HttpService {
     });
   }
 
+  /** 生成一个UUID */
   static GetIds(host: string) {
     return Service.executeService<string[]>(host, {
       name: "/service/data/GetIds?_ajax=1",

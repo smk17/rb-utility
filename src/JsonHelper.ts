@@ -1,3 +1,5 @@
+import { IDictionary } from "./IUtilityTypes";
+
 /**
  * Json辅助工具
  * @returns

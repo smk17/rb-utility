@@ -1,12 +1,16 @@
 import Axios from "axios";
 import { JsonHelper, ConsoleHelper, EventDriver } from "../index";
-import { IServiceInfo, ServiceErrorLevelEnum, ServiceType } from "./IServiceTypes";
-/** 数据请求失败时重新请求的次数 */
-const RELOADCOUNT = 5;
-/** 数据超时时间 */
-const TIMEOUT = 30000;
+import {
+  IServiceInfo,
+  ServiceErrorLevelEnum,
+  ServiceType
+} from "./IServiceTypes";
 
 export default class Service {
+  /** 数据请求失败时重新请求的次数 */
+  public static RELOADCOUNT = 5;
+  /** 数据超时时间 */
+  public static TIMEOUT = 30000;
   private static _toParamString = async val => {
     if (val === null || val === undefined) {
       return null;
@@ -24,13 +28,18 @@ export default class Service {
         if (moment.isDate(val)) {
           return moment(val).format("yyyy-MM-dd HH:mm:ss");
         }
-        if (val.data && val.data instanceof Blob && typeof val.fileName === "string") {
+        if (
+          val.data &&
+          val.data instanceof Blob &&
+          typeof val.fileName === "string"
+        ) {
           return val;
         }
         if (typeof val === "object") {
           for (const key in val) {
             if (val.hasOwnProperty(key)) {
-              if (typeof val[key] === "object") val[key] = JsonHelper.toJson(val[key]);
+              if (typeof val[key] === "object")
+                val[key] = JsonHelper.toJson(val[key]);
             }
           }
         }
@@ -102,7 +111,8 @@ export default class Service {
   private static _executeService<T>(host: string, service: IServiceInfo) {
     return new Promise<T>(async (resolve, rejct) => {
       const { name } = service;
-      const handlingErrorLevel = service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
+      const handlingErrorLevel =
+        service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
       let formData: string = "",
         error: Error;
       if (service.params) {
@@ -113,7 +123,8 @@ export default class Service {
               if (formData) {
                 formData += "&";
               }
-              formData += key + "=" + (await Service._toParamString(service.params[key]));
+              formData +=
+                key + "=" + (await Service._toParamString(service.params[key]));
             }
           }
         } catch (ex) {
@@ -129,7 +140,7 @@ export default class Service {
           "Content-Type": "application/x-www-form-urlencoded",
           Accept: "application/json"
         },
-        timeout: TIMEOUT
+        timeout: Service.TIMEOUT
       });
       if (response) {
         if (response.status >= 200 && response.status < 300) {
@@ -173,138 +184,11 @@ export default class Service {
   }
 
   /**
-   * 执行指定的服务
-   * @param service 要执行的服务
-   */
-  // private static __executeService<T>(host: string, service: IServiceInfo) {
-  //   return new Promise<T>(async (resolve, rejct) => {
-  //     let formData;
-  //     let isFormData = false;
-  //     let handlingErrorLevel = service.handlingErrorLevel || ServiceErrorLevelEnum.allError;
-  //     if (service.params) {
-  //       if (service.params instanceof FormData) {
-  //         formData = service.params;
-  //         isFormData = true;
-  //       } else {
-  //         try {
-  //           formData = "";
-  //           for (let key in service.params) {
-  //             if (service.params.hasOwnProperty(key)) {
-  //               if (formData) {
-  //                 formData += "&";
-  //               }
-  //               formData += key + "=" + (await Service._toParamString(service.params[key]));
-  //             }
-  //           }
-  //         } catch (ex) {
-  //           if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
-  //             console.warn("FormatError");
-  //             Service.dispose(ex);
-  //             console.error("FormData format error: " + ex);
-  //           } else {
-  //             rejct({
-  //               type: "FormatError",
-  //               name: "参数格式化出错，请检查参数格式",
-  //               message: ex
-  //             });
-  //           }
-  //         }
-  //       }
-  //     }
-  //     let headers = new Headers({
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //       Accept: "application/json"
-  //     });
-  //     if (!isFormData) {
-  //       headers["Content-Type"] = "application/x-www-form-urlencoded";
-  //     }
-  //     // console.log("_executeService", formData);
-  //     Promise.race([
-  //       fetch(host + service.name, {
-  //         method: "POST",
-  //         cache: "no-cache",
-  //         credentials: "include",
-  //         headers,
-  //         body: formData
-  //       }),
-  //       new Promise<null>((_, reject) => {
-  //         setTimeout(() => {
-  //           let result = {
-  //             data: {
-  //               success: false,
-  //               message: "网络请求超时啦～"
-  //             }
-  //           };
-  //           reject(result.data);
-  //         }, TIMEOUT);
-  //       })
-  //     ])
-  //       .then(response => {
-  //         // response 有可能为null
-  //         let error: Error;
-  //         if (response) {
-  //           if (response.status >= 200 && response.status < 300) {
-  //             return response.text();
-  //           } else {
-  //             error = new Error(response.statusText);
-  //             error.name = "RequestServiceException";
-  //             error["status"] = response.status;
-  //             throw error;
-  //           }
-  //         } else {
-  //           error = new Error("response is null");
-  //           error.name = "RequestNullException";
-  //           throw error;
-  //         }
-  //       })
-  //       .then(res => {
-  //         const result = JsonHelper.parseJson(res);
-  //         console.log(result);
-  //         if (service.name === "/anonymity/writelog") {
-  //           return;
-  //         }
-  //         let ex = result.e;
-  //         if (ex) {
-  //           if (ex.name === "BusinessException") {
-  //             if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
-  //               Service.dispose(ex);
-  //             }
-  //           } else if (handlingErrorLevel >= ServiceErrorLevelEnum.allError) {
-  //             Service.dispose(ex);
-  //           }
-  //           rejct(ex);
-  //         } else {
-  //           // result.data 有可能为null
-  //           if (result.data) {
-  //             if (result.data.success === false) {
-  //               rejct(result.data);
-  //             } else {
-  //               resolve(result.data);
-  //             }
-  //           } else {
-  //             ConsoleHelper.error(service.name, "获取数据为null");
-  //             resolve(undefined);
-  //           }
-  //         }
-  //       })
-  //       .catch(ex => {
-  //         if (service.name === "/anonymity/writelog") {
-  //           return;
-  //         }
-  //         if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
-  //           // console.warn(ex);
-  //           Service.dispose(ex, rejct);
-  //         } else {
-  //           rejct(ex);
-  //         }
-  //       });
-  //   });
-  // }
-  /**
    * 写日志
+   * 把日志数据上传到服务器
    * @param data 日志数据
    */
-  static async writeLog(data) {
+  public static async writeLog(data) {
     // 把日志数据上传到服务器
     ConsoleHelper.logDev(JsonHelper.toJson(data), "@dy/service/Service.ts:239");
     // Service._executeService({
@@ -317,21 +201,19 @@ export default class Service {
    * @param service 要执行的服务
    * @param type 服务的类型
    */
-  static executeService<T>(
+  public static executeService<T>(
     host: string,
     service: IServiceInfo,
     type: ServiceType = ServiceType.Get
   ) {
-    // return Service._executeService<T>(service)
     return new Promise<T>((resolve, rejct) => {
-      let reloading = RELOADCOUNT;
+      let reloading = Service.RELOADCOUNT;
       let execute = () => {
         Service._executeService<T>(host, service)
           .then(res => {
             resolve(res);
-            if (type === ServiceType.Get) EventDriver.send("networkError", false, () => {});
-
-            // type === ServiceType.Get && EventDriver.send("networkError", true, execute);
+            if (type === ServiceType.Get)
+              EventDriver.send("networkError", false, () => {});
           })
           .catch(err => {
             if (err.success === false) {
@@ -353,7 +235,8 @@ export default class Service {
                   execute();
                   reloading--;
                 } else {
-                  if (type === ServiceType.Get) EventDriver.send("networkError", true, execute);
+                  if (type === ServiceType.Get)
+                    EventDriver.send("networkError", true, execute);
                   rejct(err);
                 }
               } else rejct(err);

@@ -1,0 +1,31 @@
+{
+  "name": "rb-utility",
+  "version": "0.0.1",
+  "description": "软邦开发团队工具集",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smk17/rb-utility.git"
+  },
+  "keywords": [
+    "utility"
+  ],
+  "author": "smk17",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smk17/rb-utility/issues"
+  },
+  "homepage": "https://github.com/smk17/rb-utility#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.22.2"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.10",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  }
+}

@@ -78,3 +78,6 @@ export interface IFormulaValueInfo {
   nextIndex: number;
   symbolValue?: string;
 }
+export interface IDictionary<T = any> {
+  [key: string]: T;
+}

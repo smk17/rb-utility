@@ -2,7 +2,7 @@ import ConsoleHelper from "./ConsoleHelper";
 import ErrorHelper from "./ErrorHelper";
 import TypeHelper from "./TypeHelper";
 import JsonHelper from "./JsonHelper";
-import { LoggerLevelEnum } from "./IUtilityTypes";
+import { LoggerLevelEnum, IDictionary } from "./IUtilityTypes";
 
 /**
  * 环境对象

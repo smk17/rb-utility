@@ -1,3 +1,5 @@
+import { IDictionary } from "../IUtilityTypes";
+
 export function urlToList(url: string) {
   const urllist = url.split("/").filter(i => i);
   return urllist.map((urlItem, index) => {
