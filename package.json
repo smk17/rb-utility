@@ -21,7 +21,8 @@
   "homepage": "https://github.com/smk17/rb-utility#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "rb-utility": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^10.12.10",

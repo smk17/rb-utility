@@ -8,7 +8,6 @@ import {
 
 /** 网络请求服务 */
 export default class HttpService {
-
   /** 获取权限 */
   static getController<T>(host: string, params: IServiceParams) {
     return Service.executeService<T>(host, {
@@ -42,7 +41,7 @@ export default class HttpService {
   }
 
   /** 执行控制器 */
-  static executeController<T>(host: string, params: ISaveServiceParams) {
+  static _executeController<T>(host: string, params: ISaveServiceParams) {
     return Service.executeService<T>(
       host,
       {
@@ -53,4 +52,16 @@ export default class HttpService {
     );
   }
 
+  static async executeController<T>(host: string, params: ISaveServiceParams) {
+    const get = await HttpService.getController(host, params);
+    if (get) {
+      const save = await HttpService.executeController<T>(host, params);
+      return save;
+    } else {
+      let error = new Error("你当前没有执行权限");
+      error.name = "NoPermissionException";
+      error["success"] = false;
+      throw error;
+    }
+  }
 }
