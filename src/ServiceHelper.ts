@@ -1,11 +1,13 @@
 // import Axios from "axios";
-import "whatwg-fetch";
-import { JsonHelper, ConsoleHelper, EventDriver } from ".";
+// import "whatwg-fetch";
 import {
   IServiceInfo,
   ServiceErrorLevelEnum,
   ServiceType
 } from "./IUtilityTypes";
+import JsonHelper from "./JsonHelper";
+import ConsoleHelper from "./ConsoleHelper";
+import EventDriver from "./EventDriver";
 
 export default class ServiceHelper {
   /** 数据请求失败时重新请求的次数 */

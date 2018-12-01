@@ -1,6 +1,6 @@
 import { ErrorType } from "./IUtilityTypes";
-import { EventDriver } from "./index";
 import ConsoleHelper from "./ConsoleHelper";
+import EventDriver from "./EventDriver";
 
 /**
  * 函数执行装饰器

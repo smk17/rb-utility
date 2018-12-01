@@ -1,4 +1,3 @@
-import "whatwg-fetch";
 import { IServiceInfo, ServiceType } from "./IUtilityTypes";
 export default class ServiceHelper {
     /** 数据请求失败时重新请求的次数 */

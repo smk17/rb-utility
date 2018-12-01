@@ -1,4 +1,4 @@
-import "whatwg-fetch";
+// import "whatwg-fetch";
 import JsonHelper from "../JsonHelper";
 let _oldWindowError = null;
 let windowError: any = null;

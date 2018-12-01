@@ -1,4 +1,3 @@
-import "whatwg-fetch";
 declare function isFunction(what: any): boolean;
 declare function objectMerge(obj1: any, obj2: any): any;
 declare const _default: {
