@@ -9,6 +9,7 @@ export default class DeferredExecution {
      * @param callback 回调函数，默认为延迟0
      * @param options 延迟选项
      */
-    execute(callback: (...args) => void, options?: IDeferredExecutionOption): void;
+    execute(callback: (...args: any[]) => void, options?: IDeferredExecutionOption): void;
     cancl(): void;
 }
+//# sourceMappingURL=DeferredExecution.d.ts.map

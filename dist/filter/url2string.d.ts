@@ -6,3 +6,4 @@
  */
 declare function url2string(url: string, corpId?: string, params?: object): string;
 export default url2string;
+//# sourceMappingURL=url2string.d.ts.map

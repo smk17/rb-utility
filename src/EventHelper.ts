@@ -1,5 +1,6 @@
 import { ErrorType } from "./IUtilityTypes";
 import { EventDriver } from "./index";
+import ConsoleHelper from "./ConsoleHelper";
 
 /**
  * 函数执行装饰器
@@ -12,7 +13,7 @@ export default class EventHelper {
    * 使用：`@EventHelper.exec()`
    */
   static exec(
-    message: any,
+    message: any = ConsoleHelper,
     errorText: string = "数据获取失败,请联系系统管理员！"
   ) {
     return function decorator(target, name, descriptor) {
@@ -21,7 +22,6 @@ export default class EventHelper {
         descriptor.value = async function(...args) {
           try {
             const result = await original.apply(this, args);
-            // console.log(`Result from ${name}: ${result}`);
             return result;
           } catch (e) {
             if (e) {
@@ -55,7 +55,7 @@ export default class EventHelper {
    * 使用：`@EventHelper.execLock()`
    * @param errorText 出现错误时得提示信息文本
    */
-  static execLock(message: any, errorText: string = "未知错误") {
+  static execLock(message: any = ConsoleHelper, errorText: string = "未知错误") {
     return function decorator(target: any, name: string, descriptor) {
       const original = descriptor.value;
       if (typeof original === "function") {
@@ -101,7 +101,7 @@ export default class EventHelper {
    * @returns 声明函数需返回`bool类型`，返回`true`为显示提示信息，当`successText`为`null`时即时返回`true`也不会显示提示信息
    */
   static execSubmit(
-    message: any,
+    message: any = ConsoleHelper,
     successText: string | null = "保存成功",
     errorText: string = "未知错误"
   ) {

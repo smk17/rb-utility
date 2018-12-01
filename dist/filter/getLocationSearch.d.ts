@@ -4,3 +4,4 @@ import { IDictionary } from "../IUtilityTypes";
  */
 export declare function getLocationSearch(): IDictionary<string | undefined>;
 export default getLocationSearch;
+//# sourceMappingURL=getLocationSearch.d.ts.map

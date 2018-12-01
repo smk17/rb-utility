@@ -7,3 +7,4 @@
  */
 declare function getFontSize(fontSize: number, benchmarkWidth?: number): number;
 export default getFontSize;
+//# sourceMappingURL=fontSize.d.ts.map

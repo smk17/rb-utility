@@ -39,3 +39,4 @@ export default class StringBuilder {
      */
     toString(separator?: string): string;
 }
+//# sourceMappingURL=StringBuilder.d.ts.map

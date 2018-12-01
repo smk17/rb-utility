@@ -17,3 +17,4 @@ export default class Localize {
      */
     static to(key: string, ...args: any[]): string;
 }
+//# sourceMappingURL=Localize.d.ts.map

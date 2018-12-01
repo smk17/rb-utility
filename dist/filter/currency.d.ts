@@ -7,3 +7,4 @@ import { ICurrencyParams } from "../IUtilityTypes";
  */
 declare function currency(value: any, params?: ICurrencyParams): any;
 export default currency;
+//# sourceMappingURL=currency.d.ts.map

@@ -12,11 +12,12 @@ export default class ImportLoader {
      * @param protocol
      */
     constructor(url: string, id?: string, protocol?: string);
-    private buildScriptTag(src, id?);
-    private getScriptPromise(src, id?);
-    private getMainPromise();
+    private buildScriptTag;
+    private getScriptPromise;
+    private getMainPromise;
     /** 加载外部js文件 */
     load(): Promise<any>;
     /** 加载外部 AMD 具备默认导出的 js文件 */
     loadDefault<T = any>(): Promise<T | null>;
 }
+//# sourceMappingURL=ImportLoader.d.ts.map

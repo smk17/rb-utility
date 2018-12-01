@@ -48,3 +48,4 @@ export default class DateHelper {
      */
     static add(value: Date | string | number, datepart: DatePartEnum, interval: number): Date | null;
 }
+//# sourceMappingURL=DateHelper.d.ts.map

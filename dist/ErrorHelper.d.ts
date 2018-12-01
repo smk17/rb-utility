@@ -7,7 +7,7 @@ export default class ErrorHelper {
      * @param e 服务端异常对象
      * @param sb
      */
-    private static __printExceptionTo(e, sb);
+    private static __printExceptionTo;
     /**
      * 打印异常信息
      * @param e 服务端异常对象
@@ -20,14 +20,14 @@ export default class ErrorHelper {
      * @param message 异常消息
      * @returns 返回Error对象
      */
-    private static _errorArgument(kind, paramName, message);
+    private static _errorArgument;
     /**
      * 创建异常对象
      * @param kind 异常类型
      * @param message 异常消息
      * @returns 返回Error对象
      */
-    private static _error(kind, message);
+    private static _error;
     /**
      * 创建一个Error对象
      * @param name 异常名称
@@ -134,3 +134,4 @@ export default class ErrorHelper {
      */
     static dispose(ex: Error): void;
 }
+//# sourceMappingURL=ErrorHelper.d.ts.map

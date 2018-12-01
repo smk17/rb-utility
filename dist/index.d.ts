@@ -15,11 +15,12 @@ export { default as JsonHelper } from "./JsonHelper";
 export { default as DateHelper } from "./DateHelper";
 export { default as Localize } from "./Localize";
 export { default as Formula } from "./Formula";
-export { default as ServiceHelper } from "./service/Service";
-export { default as HttpService } from "./service/HttpService";
+export { default as ServiceHelper } from "./ServiceHelper";
+export { default as HttpService } from "./HttpService";
 export { default as getLocationSearch } from "./filter/getLocationSearch";
 export { default as url2string } from "./filter/url2string";
 export { default as urlToList } from "./filter/urlToList";
 export { default as currency } from "./filter/currency";
 export { default as fontSize } from "./filter/fontSize";
 export { default as sleep } from "./filter/sleep";
+//# sourceMappingURL=index.d.ts.map

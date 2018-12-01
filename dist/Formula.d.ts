@@ -3,8 +3,8 @@
  */
 export default class Formula {
     private static _formulaRegular;
-    private static _getFormulaValue(formula, start, priority);
-    private static _replaceSymbel(formula);
+    private static _getFormulaValue;
+    private static _replaceSymbel;
     private _fn;
     private _partake;
     /**
@@ -25,3 +25,4 @@ export default class Formula {
      */
     getPartake(): string[];
 }
+//# sourceMappingURL=Formula.d.ts.map

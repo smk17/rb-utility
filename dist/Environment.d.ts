@@ -4,7 +4,7 @@ import { LoggerLevelEnum } from "./IUtilityTypes";
  */
 export default class Environment {
     private static s_data;
-    private static s_globalErrorCallback(ex);
+    private static s_globalErrorCallback;
     /**
      * 初始化，由平台统一调用
      * @param data 初始数据
@@ -47,5 +47,6 @@ export default class Environment {
      * @param {type} ex
      * @returns
      */
-    static globalErrorCallback: (ex) => void;
+    static globalErrorCallback: (ex: any) => void;
 }
+//# sourceMappingURL=Environment.d.ts.map

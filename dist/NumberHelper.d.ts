@@ -10,10 +10,10 @@ export default class NumberHelper {
     private static _eRegExp;
     private static _clearRegExp;
     private static _zeroRegex;
-    private static _isNumberFormat(format);
-    private static _getNumberFormat(format);
-    private static _pad(value, digits, end?);
-    private static _doFormatNumber(value, format);
+    private static _isNumberFormat;
+    private static _getNumberFormat;
+    private static _pad;
+    private static _doFormatNumber;
     /**
      * 对指定的数值型四舍五入到指定的精度范围内
      * @param value 要进行精度处理的数值
@@ -45,3 +45,4 @@ export default class NumberHelper {
      */
     static format(value: number | string, format: string): string;
 }
+//# sourceMappingURL=NumberHelper.d.ts.map

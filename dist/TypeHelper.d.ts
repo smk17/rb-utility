@@ -69,3 +69,4 @@ export default class TypeHelper {
      */
     static clone(obj: any): any;
 }
+//# sourceMappingURL=TypeHelper.d.ts.map

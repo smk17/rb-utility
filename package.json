@@ -1,10 +1,10 @@
 {
   "name": "rb-utility",
-  "version": "0.0.9",
+  "version": "0.0.14",
   "description": "软邦开发团队工具集",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -22,11 +22,22 @@
   "dependencies": {
     "axios": "^0.18.0",
     "moment": "^2.22.2",
-    "rb-utility": "^0.0.1",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
     "@types/node": "^10.12.10",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-less": "^4.0.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-sequence": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "gulp-uglify": "^3.0.1",
+    "less-plugin-autoprefix": "^2.0.0",
     "tslint": "^5.11.0",
     "typescript": "^3.1.6"
   }

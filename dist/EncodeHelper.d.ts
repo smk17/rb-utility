@@ -21,6 +21,7 @@ export default class EncodeHelper {
      * @param s 要进行编码的字符串
      */
     static encodeXmlText(s: string): string;
-    private static s_xmlAttrReplate(r);
-    private static s_xmlTextReplate(r);
+    private static s_xmlAttrReplate;
+    private static s_xmlTextReplate;
 }
+//# sourceMappingURL=EncodeHelper.d.ts.map

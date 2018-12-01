@@ -8,14 +8,14 @@ export default class EventHelper {
      *
      * 使用：`@EventHelper.exec()`
      */
-    static exec(message: any, errorText?: string): (target: any, name: any, descriptor: any) => any;
+    static exec(message?: any, errorText?: string): (target: any, name: any, descriptor: any) => any;
     /**
      * 执行一段普通函数代码，并对该函数加锁
      *
      * 使用：`@EventHelper.execLock()`
      * @param errorText 出现错误时得提示信息文本
      */
-    static execLock(message: any, errorText?: string): (target: any, name: string, descriptor: any) => any;
+    static execLock(message?: any, errorText?: string): (target: any, name: string, descriptor: any) => any;
     /**
      * 执行一段需要把数据提交到后端的函数代码，一般应用在点击提交按钮的场景中，例如：保存提货地址
      *
@@ -24,18 +24,19 @@ export default class EventHelper {
      * @param errorText 出现错误时得提示信息文本
      * @returns 声明函数需返回`bool类型`，返回`true`为显示提示信息，当`successText`为`null`时即时返回`true`也不会显示提示信息
      */
-    static execSubmit(message: any, successText?: string | null, errorText?: string): (target: any, name: string, descriptor: any) => any;
+    static execSubmit(message?: any, successText?: string | null, errorText?: string): (target: any, name: string, descriptor: any) => any;
     /**
      * 增加锁计数
      */
-    private static increaseLock();
+    private static increaseLock;
     /**
      * 减少锁计数
      */
-    private static decreaseLock();
+    private static decreaseLock;
     /**
      * 当前缓存是否存在锁对象
      * @returns
      */
     isLock(): boolean;
 }
+//# sourceMappingURL=EventHelper.d.ts.map

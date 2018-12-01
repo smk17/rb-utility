@@ -27,3 +27,4 @@ export default class JsonHelper {
      */
     static paramsValueConvertToString(paramValues: IDictionary): void;
 }
+//# sourceMappingURL=JsonHelper.d.ts.map

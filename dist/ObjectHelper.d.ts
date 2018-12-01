@@ -4,3 +4,4 @@ export default class ObjectHelper {
     static equals(x: any, y: any): boolean;
     static map(obj: any, callback: (obj: any, key?: number | string) => string): string[];
 }
+//# sourceMappingURL=ObjectHelper.d.ts.map

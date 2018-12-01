@@ -11,3 +11,4 @@ export default class StringHelper {
      */
     static format(format: string, ...args: any[]): string;
 }
+//# sourceMappingURL=StringHelper.d.ts.map
