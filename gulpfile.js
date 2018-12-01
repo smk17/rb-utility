@@ -1,6 +1,5 @@
 var path = require("path");
 var gulp = require("gulp");
-var gutil = require('gulp-util');
 let clean = require("gulp-clean");
 var less = require("gulp-less");
 var babel = require("gulp-babel");
@@ -21,13 +20,13 @@ gulp.task("less", function() {
         plugins: [autoprefix]
       })
     )
-    .pipe(minifycss())
+    .pipe(minifycss()) 
     .pipe(sourcemaps.write())
     .pipe(gulp.dest("./dist"));
 });
 gulp.task("clean", function() {
   return gulp
-    .src(["lib/**/*.*", "dist/**/*.*"], {
+    .src(["release/**/*.*", "dist/**/*.*"], {
       read: false
     })
     .pipe(clean());
@@ -35,27 +34,21 @@ gulp.task("clean", function() {
 gulp.task("tsc", cb => {
   var tsProject = ts.createProject("tsconfig.json");
   var tsResult = tsProject.src().pipe(tsProject());
-  return tsResult.js.pipe(gulp.dest("lib"));
+  return tsResult.js.pipe(gulp.dest("release"));
 });
 gulp.task("dtsc", cb => {
   var tsProject = ts.createProject("tsconfig.json");
   var tsResult = tsProject.src().pipe(tsProject());
-  return tsResult.dts.pipe(gulp.dest("lib"));
+  return tsResult.dts.pipe(gulp.dest("dist"));
 });
 gulp.task("babel", cb => {
   return gulp
-    .src("dist/**/*.js")
+    .src("release/**/*.js")
     .pipe(sourcemaps.init())
-    .pipe(babel().on('error', function(err) {
-      gutil.error('Error!', err.message);
-      this.emit('end');
-    }))
+    .pipe(babel())
     .pipe(uglify())
     .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("lib/"));
+    .pipe(gulp.dest("dist/"));
 });
 
-gulp.task(
-  "default",
-  gulpSequence("clean", "tsc", "dtsc")
-);
+gulp.task("default", gulpSequence("clean", "tsc","dtsc", "less", "babel"));

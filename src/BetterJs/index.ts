@@ -1,4 +1,4 @@
-// import "whatwg-fetch";
+import "whatwg-fetch";
 import utils from "./utils";
 
 export default class BetterJs {

@@ -1,5 +1,6 @@
 // import Axios from "axios";
-// import "whatwg-fetch";
+import "whatwg-fetch";
+import moment from "moment";
 import {
   IServiceInfo,
   ServiceErrorLevelEnum,
@@ -26,8 +27,6 @@ export default class ServiceHelper {
       case "number":
         return val.toString();
       default:
-        const momentAsync = await import(/* webpackChunkName: "momentjs" */ "moment");
-        const moment = (momentAsync as any).default;
         if (moment.isDate(val)) {
           return moment(val).format("yyyy-MM-dd HH:mm:ss");
         }

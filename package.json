@@ -2,9 +2,9 @@
   "name": "rb-utility",
   "version": "0.0.16",
   "description": "软邦开发团队工具集",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p ."
+    "build": "babel src -d lib"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "@types/node": "^10.12.10",
+    "babel-cli": "^6.26.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0",
     "gulp-clean": "^0.4.0",

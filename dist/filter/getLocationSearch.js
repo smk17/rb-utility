@@ -1,0 +1,2 @@
+"use strict";function getLocationSearch(){for(var e={},t=0,o=decodeURIComponent(window.location.search).substring(1).split("&");t<o.length;t++){var r=o[t].split("="),a=r[0],c=r[1];e[a]=c}return e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.getLocationSearch=getLocationSearch,exports.default=void 0;var _default=getLocationSearch;exports.default=_default;
+//# sourceMappingURL=getLocationSearch.js.map

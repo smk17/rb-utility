@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var _Formula=_interopRequireDefault(require("../Formula"));function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}var fontSizeFormula=new _Formula.default("data.fontSize * ( data.width / innerWidth )");function getFontSize(e,t){return void 0===t&&(t=375),fontSizeFormula.calc({fontSize:e,width:window.innerWidth,benchmarkWidth:t})}var _default=getFontSize;exports.default=_default;
+//# sourceMappingURL=fontSize.js.map
