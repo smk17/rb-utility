@@ -17,7 +17,7 @@ export { default as Localize } from "./Localize";
 export { default as Formula } from "./Formula";
 export { default as ServiceHelper } from "./ServiceHelper";
 export { default as HttpService } from "./HttpService";
-export { default as getLocationSearch } from "./filter/getLocationSearch";
+export { default as LocationSearch } from "./filter/LocationSearch";
 export { default as url2string } from "./filter/url2string";
 export { default as urlToList } from "./filter/urlToList";
 export { default as currency } from "./filter/currency";
