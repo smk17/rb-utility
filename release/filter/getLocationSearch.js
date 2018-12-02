@@ -1,9 +1,10 @@
 /**
  * getLocationSearch 获取 window.location.search 的参数并格式化成 object
  */
-export function getLocationSearch() {
+export function getLocationSearch(location) {
     var obj = {};
-    var searchList = decodeURIComponent(window.location.search)
+    location = location ? location : window.location;
+    var searchList = decodeURIComponent(location.search)
         .substring(1)
         .split("&");
     for (var _i = 0, searchList_1 = searchList; _i < searchList_1.length; _i++) {
