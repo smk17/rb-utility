@@ -34,7 +34,7 @@ export default class EventHelper {
                   errorType = e.errorType;
                 }
               }
-              message.error(errorText);
+              message.error(errorText, e);
               EventDriver.send("catchError", {
                 errorText,
                 errorType,
@@ -77,7 +77,7 @@ export default class EventHelper {
                   errorType = e.errorType;
                 }
               }
-              message.error(errorText);
+              message.error(errorText, e);
               EventDriver.send("catchError", {
                 errorText,
                 errorType,
@@ -132,7 +132,7 @@ export default class EventHelper {
                   errorType = e.errorType;
                 }
               }
-              message.error(errorText);
+              message.error(errorText, e);
               EventDriver.send("catchError", {
                 errorText,
                 errorType,

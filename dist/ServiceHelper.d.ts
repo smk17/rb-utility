@@ -5,6 +5,7 @@ export default class ServiceHelper {
     static RELOADCOUNT: number;
     /** 数据超时时间 */
     static TIMEOUT: number;
+    static development: boolean;
     private static _toParamString;
     /**
      * 异常处理.如果是 `UserException` 异常,则会直接弹出异常信息;否则会写入异常日志,并弹出 `操作失败，请关闭重试！`

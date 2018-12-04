@@ -233,9 +233,9 @@ var ServiceHelper = /** @class */ (function () {
                     case 6:
                         ex_1 = _e.sent();
                         if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
-                            console.warn("FormatError");
+                            ConsoleHelper.warn("FormatError");
                             ServiceHelper._dispose(ex_1, rejct);
-                            console.error("FormData format error: " + ex_1);
+                            ConsoleHelper.error("FormData format error: " + ex_1);
                         }
                         else {
                             rejct({
@@ -253,7 +253,6 @@ var ServiceHelper = /** @class */ (function () {
                         if (!isFormData) {
                             headers["Content-Type"] = "application/x-www-form-urlencoded";
                         }
-                        // console.log("_executeService", formData);
                         Promise.race([
                             fetch(host + service.name, {
                                 method: "POST",
@@ -296,7 +295,8 @@ var ServiceHelper = /** @class */ (function () {
                         })
                             .then(function (res) {
                             var result = JsonHelper.parseJson(res);
-                            // console.log(result);
+                            if (ServiceHelper.development)
+                                ConsoleHelper.log(result);
                             if (service.name === "/anonymity/writelog") {
                                 return;
                             }
@@ -333,7 +333,6 @@ var ServiceHelper = /** @class */ (function () {
                                 return;
                             }
                             if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
-                                // console.warn(ex);
                                 ServiceHelper._dispose(ex, rejct);
                             }
                             else {
@@ -380,6 +379,10 @@ var ServiceHelper = /** @class */ (function () {
                         rejct(err);
                         return;
                     }
+                    if (ServiceHelper.development) {
+                        rejct(err);
+                        return;
+                    }
                     if (err.name === "RequestServiceException") {
                         if (err.status === 408 ||
                             err.status === 503 ||
@@ -410,6 +413,7 @@ var ServiceHelper = /** @class */ (function () {
     ServiceHelper.RELOADCOUNT = 5;
     /** 数据超时时间 */
     ServiceHelper.TIMEOUT = 30000;
+    ServiceHelper.development = false;
     ServiceHelper._toParamString = function (val) { return __awaiter(_this, void 0, void 0, function () {
         var key;
         return __generator(this, function (_a) {

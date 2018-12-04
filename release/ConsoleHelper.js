@@ -29,12 +29,21 @@ var ConsoleHelper = /** @class */ (function () {
             console.debug.apply(console, data);
         }
     };
+    ConsoleHelper.warn = function () {
+        var data = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            data[_i] = arguments[_i];
+        }
+        if (console && ConsoleHelper.development) {
+            console.warn.apply(console, data);
+        }
+    };
     ConsoleHelper.error = function () {
         var data = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             data[_i] = arguments[_i];
         }
-        if (console) {
+        if (console && ConsoleHelper.development) {
             console.error.apply(console, data);
         }
     };

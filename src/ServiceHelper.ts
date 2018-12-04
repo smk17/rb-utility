@@ -15,6 +15,7 @@ export default class ServiceHelper {
   public static RELOADCOUNT = 5;
   /** 数据超时时间 */
   public static TIMEOUT = 30000;
+  public static development = false;
   private static _toParamString = async val => {
     if (val === null || val === undefined) {
       return null;
@@ -215,9 +216,9 @@ export default class ServiceHelper {
             }
           } catch (ex) {
             if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
-              console.warn("FormatError");
+              ConsoleHelper.warn("FormatError");
               ServiceHelper._dispose(ex, rejct);
-              console.error("FormData format error: " + ex);
+              ConsoleHelper.error("FormData format error: " + ex);
             } else {
               rejct({
                 type: "FormatError",
@@ -235,7 +236,6 @@ export default class ServiceHelper {
       if (!isFormData) {
         headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
-      // console.log("_executeService", formData);
       Promise.race([
         fetch(host + service.name, {
           method: "POST",
@@ -276,7 +276,7 @@ export default class ServiceHelper {
         })
         .then(res => {
           const result = JsonHelper.parseJson(res);
-          // console.log(result);
+          if (ServiceHelper.development) ConsoleHelper.log(result);
           if (service.name === "/anonymity/writelog") {
             return;
           }
@@ -309,7 +309,6 @@ export default class ServiceHelper {
             return;
           }
           if (handlingErrorLevel >= ServiceErrorLevelEnum.fail) {
-            // console.warn(ex);
             ServiceHelper._dispose(ex, rejct);
           } else {
             rejct(ex);
@@ -352,6 +351,10 @@ export default class ServiceHelper {
           })
           .catch(err => {
             if (err.success === false) {
+              rejct(err);
+              return;
+            }
+            if (ServiceHelper.development) {
               rejct(err);
               return;
             }

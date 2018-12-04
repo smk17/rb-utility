@@ -19,8 +19,14 @@ export default class ConsoleHelper {
     }
   }
 
+  static warn(...data) {
+    if (console && ConsoleHelper.development) {
+      console.warn(...data);
+    }
+  }
+
   static error(...data) {
-    if (console) {
+    if (console && ConsoleHelper.development) {
       console.error(...data);
     }
   }

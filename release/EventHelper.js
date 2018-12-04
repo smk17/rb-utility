@@ -80,7 +80,7 @@ var EventHelper = /** @class */ (function () {
                                                 errorType = e_1.errorType;
                                             }
                                         }
-                                        message.error(errorText);
+                                        message.error(errorText, e_1);
                                         EventDriver.send("catchError", {
                                             errorText: errorText,
                                             errorType: errorType,
@@ -139,7 +139,7 @@ var EventHelper = /** @class */ (function () {
                                                 errorType = e_2.errorType;
                                             }
                                         }
-                                        message.error(errorText);
+                                        message.error(errorText, e_2);
                                         EventDriver.send("catchError", {
                                             errorText: errorText,
                                             errorType: errorType,
@@ -208,7 +208,7 @@ var EventHelper = /** @class */ (function () {
                                                 errorType = e_3.errorType;
                                             }
                                         }
-                                        message.error(errorText);
+                                        message.error(errorText, e_3);
                                         EventDriver.send("catchError", {
                                             errorText: errorText,
                                             errorType: errorType,
