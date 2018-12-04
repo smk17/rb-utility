@@ -1,10 +1,10 @@
 {
   "name": "rb-utility",
-  "version": "0.1.9",
+  "version": "0.1.11",
   "description": "软邦开发团队工具集",
   "main": "dist/index.js",
   "scripts": {
-    "build": "gulp"
+    "publish": "gulp"
   },
   "repository": {
     "type": "git",
