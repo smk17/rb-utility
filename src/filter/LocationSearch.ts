@@ -1,6 +1,6 @@
 import { IDictionary } from "../IUtilityTypes";
 
-type Location = { search: string } & IDictionary;
+type Location = { search?: string } & IDictionary;
 
 /** 获取 location.search 的参数并格式化成 object */
 class LocationSearch {
@@ -12,12 +12,17 @@ class LocationSearch {
    */
   public static get(location?: Location) {
     let obj: IDictionary<string> = {};
-    location = location
-      ? location
-      : LocationSearch.location
-      ? LocationSearch.location
-      : window.location;
-    let searchList = decodeURIComponent(location.search)
+    let search = window.location.search;
+    if (location) {
+      if (location.search) {
+        search = location.search;
+      }
+    } else if (LocationSearch.location) {
+      if (LocationSearch.location.search) {
+        search = LocationSearch.location.search;
+      }
+    }
+    let searchList = decodeURIComponent(search)
       .substring(1)
       .split("&");
     for (const search of searchList) {

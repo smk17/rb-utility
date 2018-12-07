@@ -8,17 +8,23 @@ var LocationSearch = /** @class */ (function () {
      */
     LocationSearch.get = function (location) {
         var obj = {};
-        location = location
-            ? location
-            : LocationSearch.location
-                ? LocationSearch.location
-                : window.location;
-        var searchList = decodeURIComponent(location.search)
+        var search = window.location.search;
+        if (location) {
+            if (location.search) {
+                search = location.search;
+            }
+        }
+        else if (LocationSearch.location) {
+            if (LocationSearch.location.search) {
+                search = LocationSearch.location.search;
+            }
+        }
+        var searchList = decodeURIComponent(search)
             .substring(1)
             .split("&");
         for (var _i = 0, searchList_1 = searchList; _i < searchList_1.length; _i++) {
-            var search = searchList_1[_i];
-            var element = search.split("=");
+            var search_1 = searchList_1[_i];
+            var element = search_1.split("=");
             var key = element[0];
             var val = element[1];
             obj[key] = val;
