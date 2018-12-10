@@ -1,6 +1,7 @@
 import { IDictionary } from "../IUtilityTypes";
 declare type Location = {
     search?: string;
+    query?: IDictionary<string>;
 } & IDictionary;
 /** 获取 location.search 的参数并格式化成 object */
 declare class LocationSearch {

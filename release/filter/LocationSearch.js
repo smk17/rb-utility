@@ -7,18 +7,24 @@ var LocationSearch = /** @class */ (function () {
      * @param location Location 对象包含有关当前 URL 的信息。默认是`window.location`,可传递其他路由器自带的`location`替代，例如`react-router`
      */
     LocationSearch.get = function (location) {
-        var obj = {};
         var search = window.location.search;
         if (location) {
-            if (location.search) {
+            if (location.query) {
+                return location.query;
+            }
+            else if (location.search) {
                 search = location.search;
             }
         }
         else if (LocationSearch.location) {
-            if (LocationSearch.location.search) {
+            if (LocationSearch.location.query) {
+                return LocationSearch.location.query;
+            }
+            else if (LocationSearch.location.search) {
                 search = LocationSearch.location.search;
             }
         }
+        var obj = {};
         var searchList = decodeURIComponent(search)
             .substring(1)
             .split("&");
