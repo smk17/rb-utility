@@ -3,7 +3,9 @@ export declare enum ErrorType {
     unknown = 0,
     known = 1,
     /** 权限 */
-    permissions = 2
+    permissions = 2,
+    /** 业务异常 */
+    business = 3
 }
 /**
  * 日志级别枚举

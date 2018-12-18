@@ -3,7 +3,9 @@ export enum ErrorType {
   unknown,
   known,
   /** 权限 */
-  permissions
+  permissions,
+  /** 业务异常 */
+  business
 }
 
 /**

@@ -5,6 +5,8 @@ export var ErrorType;
     ErrorType[ErrorType["known"] = 1] = "known";
     /** 权限 */
     ErrorType[ErrorType["permissions"] = 2] = "permissions";
+    /** 业务异常 */
+    ErrorType[ErrorType["business"] = 3] = "business";
 })(ErrorType || (ErrorType = {}));
 /**
  * 日志级别枚举

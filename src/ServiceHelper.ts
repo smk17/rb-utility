@@ -4,7 +4,8 @@ import moment from "moment";
 import {
   IServiceInfo,
   ServiceErrorLevelEnum,
-  ServiceType
+  ServiceType,
+  ErrorType
 } from "./IUtilityTypes";
 import JsonHelper from "./JsonHelper";
 import ConsoleHelper from "./ConsoleHelper";
@@ -60,6 +61,7 @@ export default class ServiceHelper {
       case "PassException":
         return;
       case "BusinessException":
+        ex.errorType = ErrorType.business;
         switch (ex.type) {
           case "ReferencedDataException":
             {
@@ -324,7 +326,10 @@ export default class ServiceHelper {
    */
   public static async writeLog(data) {
     // 把日志数据上传到服务器
-    ConsoleHelper.log(JsonHelper.toJson(data), "@dy/service/ServiceHelper.ts:239");
+    ConsoleHelper.log(
+      JsonHelper.toJson(data),
+      "@dy/service/ServiceHelper.ts:239"
+    );
     // ServiceHelper._executeService({
     //   name: "/anonymity/writelog",
     //   params: data

@@ -37,7 +37,7 @@ var _this = this;
 // import Axios from "axios";
 import "whatwg-fetch";
 import moment from "moment";
-import { ServiceErrorLevelEnum, ServiceType } from "./IUtilityTypes";
+import { ServiceErrorLevelEnum, ServiceType, ErrorType } from "./IUtilityTypes";
 import JsonHelper from "./JsonHelper";
 import ConsoleHelper from "./ConsoleHelper";
 import EventDriver from "./EventDriver";
@@ -55,6 +55,7 @@ var ServiceHelper = /** @class */ (function () {
             case "PassException":
                 return;
             case "BusinessException":
+                ex.errorType = ErrorType.business;
                 switch (ex.type) {
                     case "ReferencedDataException":
                         {
