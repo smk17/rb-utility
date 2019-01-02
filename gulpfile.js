@@ -5,7 +5,7 @@ var less = require("gulp-less");
 var babel = require("gulp-babel");
 var ts = require("gulp-typescript");
 var gulpSequence = require("gulp-sequence");
-var minifycss = require("gulp-minify-css");
+var cleancss = require("gulp-clean-css");
 var uglify = require("gulp-uglify");
 var sourcemaps = require("gulp-sourcemaps");
 var LessAutoprefix = require("less-plugin-autoprefix");
@@ -20,7 +20,7 @@ gulp.task("less", function() {
         plugins: [autoprefix]
       })
     )
-    .pipe(minifycss()) 
+    .pipe(cleancss()) 
     .pipe(sourcemaps.write())
     .pipe(gulp.dest("./dist"));
 });
